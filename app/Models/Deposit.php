@@ -12,7 +12,7 @@ class Deposit extends Model
 
     protected $table = 'deposits';
 
-    protected $fillable = ['amount', 'image', 'user_id', 'status', 'approved_by'];
+    protected $fillable = ['amount', 'description', 'image', 'user_id', 'status', 'approved_by'];
 
     public function user(): BelongsTo
     {

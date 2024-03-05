@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DepositController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,8 +33,6 @@ Route::middleware('auth:api')->group(function () {
     });
 
     Route::middleware('auth.is.customer')->group(function () {
-        Route::get('customer/user', function () {
-            return response()->json(['data' => 'Customer user']);
-        });
+        Route::post('deposits', [DepositController::class, 'newDeposit']);
     });
 });

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('amount');
             $table->string('image');
+            $table->string('description');
             $table->tinyInteger('status')->default(0);
             $table->unsignedBigInteger('approved_by')->nullable();
 

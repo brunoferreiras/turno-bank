@@ -14,6 +14,6 @@ class DepositRepositoryEloquent extends BaseRepositoryEloquent implements Deposi
 
     public function create(array $data): Deposit
     {
-        return $this->model->create($data);
+        return $this->makeModel()->create($data);
     }
 }
