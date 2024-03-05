@@ -27,5 +27,17 @@ class RepositoryServiceProvider extends ServiceProvider
             \App\Repositories\UserRepository::class,
             \App\Repositories\Eloquent\UserRepositoryEloquent::class
         );
+        $this->app->bind(
+            \App\Repositories\AccountRepository::class,
+            \App\Repositories\Eloquent\AccountRepositoryEloquent::class
+        );
+        $this->app->bind(
+            \App\Repositories\DepositRepository::class,
+            \App\Repositories\Eloquent\DepositRepositoryEloquent::class
+        );
+        $this->app->bind(
+            \App\Repositories\PurchaseRepository::class,
+            \App\Repositories\Eloquent\PurchaseRepositoryEloquent::class
+        );
     }
 }
