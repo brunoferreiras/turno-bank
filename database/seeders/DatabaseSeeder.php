@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
             'username' => 'customer',
             'email' => 'customer@turnobank.com',
             'password' => bcrypt('password'),
-            'type' => UserTypes::CUSTOMER,
+            'type' => UserTypes::CUSTOMER->value,
         ]);
 
         User::factory()->create([
@@ -28,7 +28,7 @@ class DatabaseSeeder extends Seeder
             'username' => 'admin',
             'email' => 'admin@turnobank.com',
             'password' => bcrypt('password'),
-            'type' => UserTypes::ADMIN,
+            'type' => UserTypes::ADMIN->value,
         ]);
     }
 }

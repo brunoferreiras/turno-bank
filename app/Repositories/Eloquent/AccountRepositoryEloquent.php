@@ -12,8 +12,8 @@ class AccountRepositoryEloquent extends BaseRepositoryEloquent implements Accoun
         return Account::class;
     }
 
-    public function create(array $data): Account
+    public function newAccount(array $data): Account
     {
-        return $this->model->create($data);
+        return $this->create($data);
     }
 }

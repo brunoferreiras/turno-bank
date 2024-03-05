@@ -6,5 +6,5 @@ use App\Models\Account;
 
 interface AccountRepository
 {
-    public function create(array $data): Account;
+    public function newAccount(array $data): Account;
 }

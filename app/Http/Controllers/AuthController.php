@@ -48,6 +48,11 @@ class AuthController extends Controller
             ...$validated,
             'password' => Hash::make($request->password),
         ]);
+        if (!$user) {
+            return response()->json([
+                'message' => 'Error during create a new user',
+            ], 500);
+        }
         return response()->json([
             'message' => 'User created successfully',
             'user' => $user

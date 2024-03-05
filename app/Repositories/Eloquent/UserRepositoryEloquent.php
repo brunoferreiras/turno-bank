@@ -12,8 +12,8 @@ class UserRepositoryEloquent extends BaseRepositoryEloquent implements UserRepos
         return User::class;
     }
 
-    public function create(array $data): User
+    public function register(array $data): User
     {
-        return $this->model->create($data);
+        return $this->create($data);
     }
 }

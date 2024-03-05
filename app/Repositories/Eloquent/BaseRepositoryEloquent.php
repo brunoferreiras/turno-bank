@@ -26,6 +26,11 @@ abstract class BaseRepositoryEloquent implements BaseRepository
         if (!$model instanceof Model) {
             throw new \Exception("Class {$this->model()} must be an instance of Illuminate\\Database\\Eloquent\\Model");
         }
-        return $this->model = $model;
+        return $model;
+    }
+
+    public function create(array $attributes): Model
+    {
+        return $this->makeModel()->create($attributes);
     }
 }
