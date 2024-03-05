@@ -24,4 +24,16 @@ Route::controller(AuthController::class)->group(function () {
 Route::middleware('auth:api')->group(function () {
     Route::post('auth/logout', [AuthController::class, 'logout']);
     Route::post('auth/refresh', [AuthController::class, 'refresh']);
+
+    Route::middleware('auth.is.admin')->group(function () {
+        Route::get('admin/user', function () {
+            return response()->json(['data' => 'Admin user']);
+        });
+    });
+
+    Route::middleware('auth.is.customer')->group(function () {
+        Route::get('customer/user', function () {
+            return response()->json(['data' => 'Customer user']);
+        });
+    });
 });
