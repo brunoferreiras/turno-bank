@@ -21,8 +21,8 @@ class DepositController extends Controller
             'image' => 'required|image',
         ]);
         $savedImage = $validated['image']->store('deposits', 'public');
-        $user = auth('api')->user();
-        $created = $this->depositService->register($user->id, [
+        $userId = auth('api')->id();
+        $created = $this->depositService->register($userId, [
             ...$validated,
             'status' => DepositStatus::PENDING,
             'image' => $savedImage,
@@ -34,6 +34,29 @@ class DepositController extends Controller
         }
         return response()->json([
             'message' => 'Deposit could not be created',
+        ], 500);
+    }
+
+    public function pendings()
+    {
+        $deposits = $this->depositService->getPendings();
+        return response()->json($deposits);
+    }
+
+    public function updateStatus(Request $request, int $deposit)
+    {
+        $validated = $request->validate([
+            'status' => 'required|in:accepted,rejected',
+        ]);
+        $userId = auth('api')->id();
+        $updated = $this->depositService->updateStatus($userId, $deposit, $validated['status']);
+        if ($updated) {
+            return response()->json([
+                'message' => 'Deposit status updated successfully',
+            ]);
+        }
+        return response()->json([
+            'message' => 'Deposit status could not be updated',
         ], 500);
     }
 }

@@ -27,9 +27,8 @@ Route::middleware('auth:api')->group(function () {
     Route::post('auth/refresh', [AuthController::class, 'refresh']);
 
     Route::middleware('auth.is.admin')->group(function () {
-        Route::get('admin/user', function () {
-            return response()->json(['data' => 'Admin user']);
-        });
+        Route::get('deposits/pendings', [DepositController::class, 'pendings']);
+        Route::patch('deposits/{deposit}/status', [DepositController::class, 'updateStatus']);
     });
 
     Route::middleware('auth.is.customer')->group(function () {

@@ -4,6 +4,7 @@ namespace App\Repositories\Eloquent;
 
 use App\Repositories\BaseRepository;
 use Illuminate\Container\Container as Application;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 abstract class BaseRepositoryEloquent implements BaseRepository
@@ -32,5 +33,20 @@ abstract class BaseRepositoryEloquent implements BaseRepository
     public function create(array $attributes): Model
     {
         return $this->makeModel()->create($attributes);
+    }
+
+    public function findOne(int $id): ?Model
+    {
+        return $this->makeModel()->find($id);
+    }
+
+    public function findWhere(array $where, array $columns = ['*']): ?Collection
+    {
+        return $this->makeModel()->where($where)->get($columns);
+    }
+
+    public function update(int $id, array $attributes): bool
+    {
+        return $this->makeModel()->find($id)->update($attributes);
     }
 }

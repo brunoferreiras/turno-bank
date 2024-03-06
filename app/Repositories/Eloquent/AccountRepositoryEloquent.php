@@ -16,4 +16,11 @@ class AccountRepositoryEloquent extends BaseRepositoryEloquent implements Accoun
     {
         return $this->create($data);
     }
+
+    public function updateBalance(int $account, int $balance): bool
+    {
+        return $this->makeModel()
+            ->where('id', $account)
+            ->update(['balance' => $balance]);
+    }
 }
