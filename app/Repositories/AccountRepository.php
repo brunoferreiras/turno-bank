@@ -9,4 +9,6 @@ interface AccountRepository extends BaseRepository
     public function newAccount(array $data): Account;
 
     public function updateBalance(int $accountId, int $balance): bool;
+
+    public function getSummaryAccount(int $userId): array;
 }

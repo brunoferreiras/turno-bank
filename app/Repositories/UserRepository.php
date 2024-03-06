@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 use App\Models\User;
 
-interface UserRepository
+interface UserRepository extends BaseRepository
 {
     public function register(array $data): User;
 }

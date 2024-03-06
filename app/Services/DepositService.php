@@ -56,7 +56,8 @@ class DepositService
                 throw new \Exception('Deposit not found');
             }
             $depositStatus = DepositStatus::fromStatus($status);
-            $this->updateBalance($deposit->user_id, $deposit->amount, $depositStatus);
+            $amount = CurrencyHelper::formatToDatabase($deposit->amount);
+            $this->updateBalance($deposit->user_id, $amount, $depositStatus);
             Log::info('Deposit status updated successfully', [
                 'deposit' => $deposit
             ]);

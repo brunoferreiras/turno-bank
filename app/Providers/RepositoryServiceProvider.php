@@ -39,5 +39,9 @@ class RepositoryServiceProvider extends ServiceProvider
             \App\Repositories\PurchaseRepository::class,
             \App\Repositories\Eloquent\PurchaseRepositoryEloquent::class
         );
+        $this->app->bind(
+            \App\Repositories\TransactionRepository::class,
+            \App\Repositories\Eloquent\TransactionRepositoryEloquent::class
+        );
     }
 }

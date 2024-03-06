@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DepositController;
+use App\Http\Controllers\PurchaseController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,8 +16,6 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-
-// $this->middleware('auth:api', ['except' => ['login', 'register']]);
 
 Route::controller(AuthController::class)->group(function () {
     Route::post('auth/login', 'login');
@@ -33,5 +33,10 @@ Route::middleware('auth:api')->group(function () {
 
     Route::middleware('auth.is.customer')->group(function () {
         Route::post('deposits', [DepositController::class, 'newDeposit']);
+
+        Route::get('accounts/balance', [AccountController::class, 'balance']);
+        Route::get('accounts/transactions', [AccountController::class, 'transactions']);
+
+        Route::post('purchases', [PurchaseController::class, 'store']);
     });
 });

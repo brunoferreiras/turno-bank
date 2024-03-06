@@ -12,8 +12,8 @@ class PurchaseRepositoryEloquent extends BaseRepositoryEloquent implements Purch
         return Purchase::class;
     }
 
-    public function create(array $data): Purchase
+    public function register(array $data): Purchase
     {
-        return $this->model->create($data);
+        return $this->create($data);
     }
 }

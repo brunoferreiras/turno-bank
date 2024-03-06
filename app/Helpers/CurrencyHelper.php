@@ -9,7 +9,7 @@ class CurrencyHelper
         return number_format($value, 2) . ' ' . $currency;
     }
 
-    public static function formatToDatabase(float $value): float
+    public static function formatToDatabase(float $value): int
     {
         return $value * 100;
     }
