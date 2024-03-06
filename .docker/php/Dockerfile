@@ -75,8 +75,8 @@ FROM base as development
 WORKDIR /var/www/html
 # Environment variables
 ENV PATH=/home/laravel/.composer/vendor/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-ENV APP_ENV=local
 
+COPY --chown=laravel:laravel .docker/php/supervisord.conf /etc/supervisord.conf
 ADD .docker/php/entrypoint.sh /bin/entrypoint.sh
 ADD .docker/php/xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 ADD .docker/php/opcache.ini /usr/local/etc/php/conf.d/10-opcache.ini

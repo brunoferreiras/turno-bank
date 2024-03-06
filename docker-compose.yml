@@ -29,13 +29,12 @@ services:
         build:
             context: .
             dockerfile: ./.docker/php/Dockerfile
+            target: development
         container_name: turnobank-api
         volumes:
             - ./:/var/www/html
         restart: unless-stopped
         tty: true
-        environment:
-            - APP_ENV=local
         networks:
             - turnobank_network
         depends_on:

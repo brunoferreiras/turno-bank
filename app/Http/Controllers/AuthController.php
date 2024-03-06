@@ -46,7 +46,7 @@ class AuthController extends Controller
         ]);
         $user = $this->userService->create([
             ...$validated,
-            'password' => Hash::make($request->password),
+            'password' => Hash::make($validated['password']),
         ]);
         if (!$user) {
             return response()->json([

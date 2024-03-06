@@ -22,15 +22,8 @@ class DepositRepositoryEloquent extends BaseRepositoryEloquent implements Deposi
     {
         return $this->makeModel()
             ->with('user')
-            ->where('status', DepositStatus::PENDING)
+            ->where('status', DepositStatus::PENDING->value)
             ->orderBy('created_at', 'desc')
             ->paginate();
-    }
-
-    public function updateStatus(int $deposit, DepositStatus $status): bool
-    {
-        return $this->makeModel()
-            ->where('id', $deposit)
-            ->update(['status' => $status]);
     }
 }

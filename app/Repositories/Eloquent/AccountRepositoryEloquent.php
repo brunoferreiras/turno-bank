@@ -31,7 +31,7 @@ class AccountRepositoryEloquent extends BaseRepositoryEloquent implements Accoun
         $result = $this->makeModel()
             ->select(
                 'accounts.id',
-                'balance',
+                'accounts.balance',
                 DB::raw('COALESCE(SUM(deposits.amount), 0) as total_incomes'),
                 DB::raw('COALESCE(SUM(purchases.amount), 0) as total_expenses'),
             )

@@ -18,7 +18,8 @@ class DepositFactory extends Factory
     public function definition(): array
     {
         return [
-            'amount' => fake()->numberBetween(0, 1000),
+            'amount' => fake()->numberBetween(0, 100000),
+            'description' => fake()->sentence(),
             'image' => fake()->imageUrl(),
             'status' => fake()->randomElement([DepositStatus::PENDING, DepositStatus::ACCEPTED, DepositStatus::REJECTED]),
         ];

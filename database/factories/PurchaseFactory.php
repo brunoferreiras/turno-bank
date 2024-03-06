@@ -17,7 +17,7 @@ class PurchaseFactory extends Factory
     public function definition(): array
     {
         return [
-            'amount' => fake()->numberBetween(0, 1000),
+            'amount' => fake()->numberBetween(0, 10000),
             'description' => fake()->sentence(),
         ];
     }
