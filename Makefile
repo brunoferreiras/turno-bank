@@ -7,8 +7,8 @@ bash:
 nginx:
 	docker compose exec nginx sh
 
-queue:
-	docker compose exec queue redis-cli -a qmind
+cache:
+	docker compose exec cache redis-cli -a turnobank
 
 db:
 	docker compose exec mysql mysql -u turnobank -pturnobank

@@ -13,13 +13,13 @@ return new class extends Migration
         $createCommand = app()->environment('testing') ? 'CREATE' : 'CREATE OR REPLACE';
         DB::statement("{$createCommand} VIEW transactions AS
         SELECT
-            id, COALESCE(SUM(amount), 0) / 100, description, account_id, 'income' AS type, created_at, updated_at
+            id, ROUND(amount / 100, 2) as amount, description, account_id, 'income' AS type, created_at, updated_at
         FROM deposits
 
         UNION
 
         SELECT
-            id, COALESCE(SUM(amount), 0) / 100, description, account_id, 'expense' AS type, created_at, updated_at
+            id, ROUND(amount / 100, 2) as amount, description, account_id, 'expense' AS type, created_at, updated_at
         FROM purchases;
         ");
     }

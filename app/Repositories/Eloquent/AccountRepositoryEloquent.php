@@ -32,8 +32,8 @@ class AccountRepositoryEloquent extends BaseRepositoryEloquent implements Accoun
             ->select(
                 'accounts.id',
                 'accounts.amount',
-                DB::raw('COALESCE(SUM(deposits.amount), 0) / 100 as total_incomes'),
-                DB::raw('COALESCE(SUM(purchases.amount), 0) / 100 as total_expenses'),
+                DB::raw('ROUND(COALESCE(SUM(deposits.amount), 0) / 100, 2) as total_incomes'),
+                DB::raw('ROUND(COALESCE(SUM(purchases.amount), 0) / 100, 2) as total_expenses'),
             )
             ->leftJoin('deposits', 'accounts.id', '=', 'deposits.account_id')
             ->leftJoin('purchases', 'accounts.id', '=', 'purchases.account_id')
