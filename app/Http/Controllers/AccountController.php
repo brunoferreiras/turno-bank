@@ -13,15 +13,17 @@ class AccountController
 
     public function balance()
     {
-        $userId = auth('api')->id();
-        $accounts = $this->accountService->getSummaryAccount($userId);
+        $user = auth('api')->user();
+        $accountId = $user->account->id;
+        $accounts = $this->accountService->getSummaryAccount($accountId);
         return response()->json($accounts);
     }
 
     public function transactions()
     {
-        $userId = auth('api')->id();
-        $accounts = $this->accountService->getTransactions($userId);
+        $user = auth('api')->user();
+        $accountId = $user->account->id;
+        $accounts = $this->accountService->getTransactions($accountId);
         return response()->json($accounts);
     }
 }

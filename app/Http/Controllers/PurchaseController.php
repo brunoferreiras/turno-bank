@@ -18,8 +18,9 @@ class PurchaseController extends Controller
             'amount' => 'required|numeric',
             'description' => 'required|string',
         ]);
-        $userId = auth('api')->id();
-        $response = $this->purchaseService->create($userId, $validated);
+        $user = auth('api')->user();
+        $accountId = $user->account->id;
+        $response = $this->purchaseService->create($accountId, $validated);
         if (optional($response)['success'] === false) {
             return response()->json([
                 'error' => $response['error']

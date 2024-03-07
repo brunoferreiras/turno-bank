@@ -2,20 +2,21 @@
 
 namespace App\Models;
 
+use App\Traits\HasAmount;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Purchase extends Model
 {
-    use HasFactory;
+    use HasFactory, HasAmount;
 
     protected $table = 'purchases';
 
-    protected $fillable = ['amount', 'description', 'user_id'];
+    protected $fillable = ['amount', 'description', 'account_id'];
 
-    public function user(): BelongsTo
+    public function account(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Account::class);
     }
 }

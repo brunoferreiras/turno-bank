@@ -33,7 +33,7 @@ class DepositControllerTest extends TestCase
         Storage::disk('public')->assertExists('deposits/' . $file->hashName());
         $response->assertCreated();
         $this->assertDatabaseHas('deposits', [
-            'user_id' => $user->id,
+            'account_id' => $user->account->id,
             'description' => $payload['description'],
             'amount' => 10000,
             'image' => 'deposits/' . $file->hashName(),
@@ -98,7 +98,7 @@ class DepositControllerTest extends TestCase
         $response = $this->postJson('/api/deposits', $payload);
         $response->assertServerError();
         $this->assertDatabaseMissing('deposits', [
-            'user_id' => $user->id,
+            'account_id' => $user->id,
             'description' => $payload['description'],
             'amount' => 10000,
             'image' => 'deposits/' . $file->hashName(),
@@ -114,7 +114,7 @@ class DepositControllerTest extends TestCase
         ]);
         foreach (DepositStatus::cases() as $case) {
             Deposit::factory()->count(2)->create([
-                'user_id' => $customer->id,
+                'account_id' => $customer->account->id,
                 'status' => $case->value,
             ]);
         }
@@ -135,7 +135,7 @@ class DepositControllerTest extends TestCase
         ]);
         foreach (DepositStatus::cases() as $case) {
             Deposit::factory()->count(2)->create([
-                'user_id' => $customer->id,
+                'account_id' => $customer->account->id,
                 'status' => $case->value,
             ]);
         }
@@ -154,7 +154,7 @@ class DepositControllerTest extends TestCase
             'type' => UserTypes::CUSTOMER->value,
         ]);
         $deposit = Deposit::factory()->create([
-            'user_id' => $customer->id,
+            'account_id' => $customer->account->id,
             'status' => DepositStatus::PENDING->value,
         ]);
         $admin = User::factory()->create([
@@ -168,6 +168,7 @@ class DepositControllerTest extends TestCase
         $this->assertDatabaseHas('deposits', [
             'id' => $deposit->id,
             'status' => DepositStatus::ACCEPTED->value,
+            'approved_by' => $admin->id,
         ]);
     }
 
@@ -178,7 +179,7 @@ class DepositControllerTest extends TestCase
             'type' => UserTypes::CUSTOMER->value,
         ]);
         $deposit = Deposit::factory()->create([
-            'user_id' => $customer->id,
+            'account_id' => $customer->account->id,
             'status' => DepositStatus::PENDING->value,
         ]);
         $user = User::factory()->create([
@@ -202,7 +203,7 @@ class DepositControllerTest extends TestCase
             'type' => UserTypes::CUSTOMER->value,
         ]);
         $deposit = Deposit::factory()->create([
-            'user_id' => $customer->id,
+            'account_id' => $customer->account->id,
             'status' => DepositStatus::PENDING->value,
         ]);
         $admin = User::factory()->create([
@@ -223,7 +224,7 @@ class DepositControllerTest extends TestCase
             'type' => UserTypes::CUSTOMER->value,
         ]);
         $deposit = Deposit::factory()->create([
-            'user_id' => $customer->id,
+            'account_id' => $customer->account->id,
             'status' => DepositStatus::PENDING->value,
         ]);
         $admin = User::factory()->create([

@@ -2,8 +2,6 @@
 
 namespace App\Services;
 
-use App\Helpers\CurrencyHelper;
-use App\Models\Purchase;
 use App\Repositories\AccountRepository;
 use App\Repositories\PurchaseRepository;
 use Illuminate\Support\Facades\DB;
@@ -18,25 +16,24 @@ class PurchaseService
     ) {
     }
 
-    public function create(int $userId, array $data): array
+    public function create(int $accountId, array $data): array
     {
         try {
             DB::beginTransaction();
-            $amount = CurrencyHelper::formatToDatabase($data['amount']);
-            $balance = $this->accountRepository->findOne($userId);
-            if ($balance->balance < $amount) {
+            $account = $this->accountRepository->findOne($accountId);
+            $amount = $data['amount'];
+            if ($account->amount < $amount) {
                 Log::error('Insufficient funds', [
-                    'balance' => $balance->balance,
+                    'accountBalance' => $account->amount,
                     'amount' => $amount
                 ]);
                 throw new \Exception('Insufficient funds');
             }
             $purchase = $this->purchaseRepository->register([
-                'user_id' => $userId,
+                'account_id' => $accountId,
                 'amount' => $amount,
                 'description' => $data['description']
             ]);
-            $this->accountRepository->updateBalance($balance->id, $balance->balance - $data['amount']);
             DB::commit();
             Log::info('Purchase created successfully', [
                 'purchase' => $purchase

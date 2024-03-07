@@ -32,6 +32,7 @@ Route::middleware('auth:api')->group(function () {
     });
 
     Route::middleware('auth.is.customer')->group(function () {
+        Route::get('deposits', [DepositController::class, 'index']);
         Route::post('deposits', [DepositController::class, 'newDeposit']);
 
         Route::get('accounts/balance', [AccountController::class, 'balance']);

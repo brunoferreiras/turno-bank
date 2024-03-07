@@ -2,7 +2,11 @@
 
 namespace App\Providers;
 
+use App\Models\Deposit;
+use App\Models\Purchase;
 use App\Models\User;
+use App\Observers\DepositObserver;
+use App\Observers\PurchaseObserver;
 use App\Observers\UserObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -27,6 +31,8 @@ class EventServiceProvider extends ServiceProvider
     public function boot(): void
     {
         User::observe(UserObserver::class);
+        Deposit::observe(DepositObserver::class);
+        Purchase::observe(PurchaseObserver::class);
     }
 
     /**

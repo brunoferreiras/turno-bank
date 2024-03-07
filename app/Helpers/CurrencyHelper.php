@@ -4,9 +4,9 @@ namespace App\Helpers;
 
 class CurrencyHelper
 {
-    public static function format(float $value, string $currency = 'USD'): string
+    public static function formatToResponse(int $value): float
     {
-        return number_format($value, 2) . ' ' . $currency;
+        return $value / 100;
     }
 
     public static function formatToDatabase(float $value): int

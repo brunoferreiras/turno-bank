@@ -12,11 +12,11 @@ class TransactionRepositoryEloquent extends BaseRepositoryEloquent implements Tr
         return Transaction::class;
     }
 
-    public function getTransactions(int $userId)
+    public function getTransactions(int $accountId)
     {
         return $this->makeModel()
-            ->where('user_id', $userId)
+            ->where('account_id', $accountId)
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->paginate();
     }
 }

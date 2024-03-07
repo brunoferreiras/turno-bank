@@ -8,12 +8,12 @@ use PHPUnit\Framework\TestCase;
 class CurrencyHelperTest extends TestCase
 {
     /** @test */
-    public function it_should_format_a_currency(): void
+    public function it_should_format_a_currency_to_response(): void
     {
-        $value = 100;
+        $value = 10000;
         $currency = 'USD';
-        $formatted = CurrencyHelper::format($value, $currency);
-        $this->assertEquals('100.00 USD', $formatted);
+        $formatted = CurrencyHelper::formatToResponse($value, $currency);
+        $this->assertEquals(100.00, $formatted);
     }
 
     /** @test */

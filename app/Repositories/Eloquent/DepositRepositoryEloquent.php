@@ -21,9 +21,18 @@ class DepositRepositoryEloquent extends BaseRepositoryEloquent implements Deposi
     public function getPendings()
     {
         return $this->makeModel()
-            ->with('user')
+            ->with('account')
             ->where('status', DepositStatus::PENDING->value)
             ->orderBy('created_at', 'desc')
             ->paginate();
+    }
+
+    public function getByAccount(int $accountId, int $status, int $perPage)
+    {
+        return $this->makeModel()
+            ->where('account_id', $accountId)
+            ->where('status', $status)
+            ->orderBy('created_at', 'desc')
+            ->paginate($perPage);
     }
 }

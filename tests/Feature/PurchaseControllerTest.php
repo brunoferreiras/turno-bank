@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use App\Enums\DepositStatus;
 use App\Enums\UserTypes;
-use App\Models\Account;
 use App\Models\Deposit;
 use App\Models\Purchase;
 use App\Models\User;
@@ -22,13 +21,12 @@ class PurchaseControllerTest extends TestCase
         $user = User::factory()->create([
             'type' => UserTypes::CUSTOMER->value,
         ]);
-        Deposit::factory()->create([
-            'user_id' => $user->id,
-            'status' => DepositStatus::ACCEPTED->value,
+        $deposit = Deposit::factory()->create([
+            'account_id' => $user->account->id,
             'amount' => 10000,
         ]);
-        Account::find($user->id)->update([
-            'balance' => 10000,
+        $deposit->update([
+            'status' => DepositStatus::ACCEPTED->value,
         ]);
         $payload = Purchase::factory()->make([
             'amount' => 100,
@@ -38,7 +36,7 @@ class PurchaseControllerTest extends TestCase
         $response->assertCreated();
         $this->assertDatabaseCount('purchases', 1);
         $this->assertDatabaseHas('purchases', [
-            'user_id' => $user->id,
+            'account_id' => $user->account->id,
             'description' => $payload['description'],
             'amount' => 10000,
         ]);

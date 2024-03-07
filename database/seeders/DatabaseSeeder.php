@@ -25,10 +25,10 @@ class DatabaseSeeder extends Seeder
             'type' => UserTypes::CUSTOMER->value,
         ]);
         Deposit::factory()->count(100)->create([
-            'user_id' => 1
+            'account_id' => 1
         ]);
         Purchase::factory()->count(50)->create([
-            'user_id' => 1
+            'account_id' => 1
         ]);
         $this->call(AdminUserSeeder::class);
     }

@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('accounts', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('balance')->default(0);
+            $table->bigInteger('amount')->default(0);
 
             $table->foreignIdFor(User::class, 'user_id')
                 ->constrained()

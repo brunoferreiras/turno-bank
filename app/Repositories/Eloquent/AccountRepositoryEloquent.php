@@ -23,27 +23,26 @@ class AccountRepositoryEloquent extends BaseRepositoryEloquent implements Accoun
     {
         return $this->makeModel()
             ->where('id', $account)
-            ->update(['balance' => $balance]);
+            ->update(['amount' => $balance]);
     }
 
-    public function getSummaryAccount(int $userId): array
+    public function getSummaryAccount(int $accountId): array
     {
         $result = $this->makeModel()
             ->select(
                 'accounts.id',
-                'accounts.balance',
-                DB::raw('COALESCE(SUM(deposits.amount), 0) as total_incomes'),
-                DB::raw('COALESCE(SUM(purchases.amount), 0) as total_expenses'),
+                'accounts.amount',
+                DB::raw('COALESCE(SUM(deposits.amount), 0) / 100 as total_incomes'),
+                DB::raw('COALESCE(SUM(purchases.amount), 0) / 100 as total_expenses'),
             )
-            ->leftJoin('deposits', 'accounts.user_id', '=', 'deposits.user_id')
-            ->leftJoin('purchases', 'accounts.user_id', '=', 'purchases.user_id')
-            ->where('accounts.user_id', $userId)
+            ->leftJoin('deposits', 'accounts.id', '=', 'deposits.account_id')
+            ->leftJoin('purchases', 'accounts.id', '=', 'purchases.account_id')
+            ->where('accounts.id', $accountId)
             ->where('deposits.status', DepositStatus::ACCEPTED->value)
             ->groupBy('accounts.id')
-            ->get()
             ->first();
         return [
-            'balance' => optional($result)->balance ?? 0,
+            'balance' => optional($result)->amount ?? 0,
             'total_incomes' => (int) optional($result)->total_incomes ?? 0,
             'total_expenses' => (int) optional($result)->total_expenses ?? 0,
         ];

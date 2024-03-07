@@ -17,7 +17,7 @@ class AccountFactory extends Factory
     public function definition(): array
     {
         return [
-            'balance' => fake()->numberBetween(0, 10000),
+            'amount' => fake()->numberBetween(0, 10000),
         ];
     }
 }

@@ -39,7 +39,7 @@ class AccountControllerTest extends TestCase
         ]);
         $this->actingAs($user, 'api');
         Deposit::factory()->create([
-            'user_id' => $user->id,
+            'account_id' => $user->account->id,
             'status' => DepositStatus::PENDING->value,
             'amount' => 100,
         ]);
@@ -59,13 +59,13 @@ class AccountControllerTest extends TestCase
             'type' => UserTypes::CUSTOMER->value,
         ]);
         $this->actingAs($user, 'api');
-        Deposit::factory()->create([
-            'user_id' => $user->id,
-            'status' => DepositStatus::ACCEPTED->value,
+        $deposit = Deposit::factory()->create([
+            'account_id' => $user->account->id,
             'amount' => 1000,
         ]);
-        $account = $user->account;
-        $account->update(['balance' => 1000]);
+        $deposit->update([
+            'status' => DepositStatus::ACCEPTED->value,
+        ]);
         $response = $this->getJson('/api/accounts/balance');
         $response->assertOk()
             ->assertJson([
@@ -83,7 +83,7 @@ class AccountControllerTest extends TestCase
         ]);
         $this->actingAs($user, 'api');
         Deposit::factory()->create([
-            'user_id' => $user->id,
+            'account_id' => $user->account->id,
             'status' => DepositStatus::REJECTED->value,
             'amount' => 1000,
         ]);
@@ -103,23 +103,23 @@ class AccountControllerTest extends TestCase
             'type' => UserTypes::CUSTOMER->value,
         ]);
         $this->actingAs($user, 'api');
-        Deposit::factory()->create([
-            'user_id' => $user->id,
+        $deposit = Deposit::factory()->create([
+            'account_id' => $user->account->id,
+            'amount' => 1000,
+        ]);
+        $deposit->update([
             'status' => DepositStatus::ACCEPTED->value,
-            'amount' => 10000,
         ]);
         Purchase::factory()->create([
-            'user_id' => $user->id,
-            'amount' => 5000,
+            'account_id' => $user->account->id,
+            'amount' => 500,
         ]);
-        $account = $user->account;
-        $account->update(['balance' => 5000]);
         $response = $this->getJson('/api/accounts/balance');
         $response->assertOk()
             ->assertJson([
-                'balance' => 5000,
-                'total_incomes' => 10000,
-                'total_expenses' => 5000,
+                'balance' => 500,
+                'total_incomes' => 1000,
+                'total_expenses' => 500,
             ]);
     }
 
@@ -131,17 +131,17 @@ class AccountControllerTest extends TestCase
         ]);
         $this->actingAs($user, 'api');
         $deposit = Deposit::factory()->create([
-            'user_id' => $user->id,
+            'account_id' => $user->account->id,
             'status' => DepositStatus::ACCEPTED->value,
             'amount' => 10000,
         ]);
         $purchase = Purchase::factory()->create([
-            'user_id' => $user->id,
+            'account_id' => $user->account->id,
             'amount' => 5000,
         ]);
         $response = $this->getJson('/api/accounts/transactions');
         $response->assertOk()
-            ->assertJsonCount(2)
+            ->assertJsonCount(2, 'data')
             ->assertSee([
                 'id' => $deposit->id,
                 'amount' => 10000,

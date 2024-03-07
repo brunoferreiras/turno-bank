@@ -13,6 +13,18 @@ class DepositController extends Controller
     ) {
     }
 
+    public function index(Request $request)
+    {
+        $validated = $request->validate([
+            'per_page' => 'nullable|integer',
+            'status' => 'nullable|in:pending,accepted,rejected',
+        ]);
+        $user = auth('api')->user();
+        $accountId = $user->account->id;
+        $deposits = $this->depositService->getByAccount($accountId, $validated['status'] ?? DepositStatus::PENDING->value, $validated['per_page'] ?? 15);
+        return response()->json($deposits);
+    }
+
     public function newDeposit(Request $request)
     {
         $validated = $request->validate([
@@ -21,8 +33,9 @@ class DepositController extends Controller
             'image' => 'required|image',
         ]);
         $savedImage = $validated['image']->store('deposits', 'public');
-        $userId = auth('api')->id();
-        $created = $this->depositService->register($userId, [
+        $user = auth('api')->user();
+        $accountId = $user->account->id;
+        $created = $this->depositService->register($accountId, [
             ...$validated,
             'status' => DepositStatus::PENDING,
             'image' => $savedImage,
