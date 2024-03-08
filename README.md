@@ -63,3 +63,6 @@ The collection have two basic variables:
 Username: admin
 Password: password
 ```
+
+### Demo Overview
+- ./docs/turnobank-demo.mp4 => Video of the application running
