@@ -56,8 +56,8 @@ The collection have two basic variables:
 
 ### Credentials to sign in of Admin:
 
-- Endpoint UI: [turnobank.brunoferreiras.dev/login](http://turnobank.brunoferreiras.dev/login)
-- Endpoint API: [turno-api.brunoferreiras.dev/api/auth/login](http://turno-api.brunoferreiras.dev/api/auth/login)
+- Endpoint UI: [https://turno.brunoferreiras.dev/login](https://turno.brunoferreiras.dev/login)
+- Endpoint API: [https://turno-api.brunoferreiras.dev/api](https://turno-api.brunoferreiras.dev/api)
 
 ```bash
 Username: admin
