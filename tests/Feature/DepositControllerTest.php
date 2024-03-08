@@ -22,7 +22,7 @@ class DepositControllerTest extends TestCase
         $user = User::factory()->create([
             'type' => UserTypes::CUSTOMER->value,
         ]);
-        Storage::fake('public');
+        Storage::fake('s3');
         $payload = Deposit::factory()->make([
             'amount' => 100,
         ])->toArray();
@@ -30,7 +30,7 @@ class DepositControllerTest extends TestCase
         $payload['image'] = $file;
         $this->actingAs($user, 'api');
         $response = $this->postJson('/api/deposits', $payload);
-        Storage::disk('public')->assertExists('deposits/' . $file->hashName());
+        Storage::disk('s3')->assertExists('deposits/' . $file->hashName());
         $response->assertCreated();
         $this->assertDatabaseHas('deposits', [
             'account_id' => $user->account->id,

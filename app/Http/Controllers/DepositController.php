@@ -33,7 +33,7 @@ class DepositController extends Controller
             'description' => 'required|string',
             'image' => 'required|image',
         ]);
-        $savedImage = $validated['image']->store('deposits', 'public');
+        $savedImage = $validated['image']->store('deposits', 's3');
         $user = auth('api')->user();
         $accountId = $user->account->id;
         $created = $this->depositService->register($accountId, [
