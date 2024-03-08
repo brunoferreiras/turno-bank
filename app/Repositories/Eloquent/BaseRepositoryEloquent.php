@@ -45,8 +45,13 @@ abstract class BaseRepositoryEloquent implements BaseRepository
         return $this->makeModel()->where($where)->get($columns);
     }
 
-    public function update(int $id, array $attributes): bool
+    public function update(int $id, array $attributes)
     {
-        return $this->makeModel()->find($id)->update($attributes);
+        $model = $this->findOne($id);
+        if (!$model) {
+            return false;
+        }
+        $model->fill($attributes);
+        return $model->save();
     }
 }

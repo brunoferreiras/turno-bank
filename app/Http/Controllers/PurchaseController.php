@@ -12,6 +12,17 @@ class PurchaseController extends Controller
     ) {
     }
 
+    public function index(Request $request)
+    {
+        $validated = $request->validate([
+            'per_page' => 'nullable|integer',
+        ]);
+        $user = auth('api')->user();
+        $accountId = $user->account->id;
+        $deposits = $this->purchaseService->getByAccount($accountId, $validated['per_page'] ?? 15);
+        return response()->json($deposits);
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([

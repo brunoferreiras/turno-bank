@@ -21,7 +21,8 @@ class DepositController extends Controller
         ]);
         $user = auth('api')->user();
         $accountId = $user->account->id;
-        $deposits = $this->depositService->getByAccount($accountId, $validated['status'] ?? DepositStatus::PENDING->value, $validated['per_page'] ?? 15);
+        $status = DepositStatus::fromStatus($validated['status'] ?? 0) ?? DepositStatus::PENDING;
+        $deposits = $this->depositService->getByAccount($accountId, $status->value, $validated['per_page'] ?? 15);
         return response()->json($deposits);
     }
 

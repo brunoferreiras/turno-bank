@@ -156,6 +156,7 @@ class DepositControllerTest extends TestCase
         $deposit = Deposit::factory()->create([
             'account_id' => $customer->account->id,
             'status' => DepositStatus::PENDING->value,
+            'amount' => 1000,
         ]);
         $admin = User::factory()->create([
             'type' => UserTypes::ADMIN->value,
@@ -169,6 +170,10 @@ class DepositControllerTest extends TestCase
             'id' => $deposit->id,
             'status' => DepositStatus::ACCEPTED->value,
             'approved_by' => $admin->id,
+        ]);
+        $this->assertDatabaseHas('accounts', [
+            'id' => $customer->account->id,
+            'amount' => 100000,
         ]);
     }
 

@@ -16,4 +16,12 @@ class PurchaseRepositoryEloquent extends BaseRepositoryEloquent implements Purch
     {
         return $this->create($data);
     }
+
+    public function getByAccount(int $accountId, int $perPage)
+    {
+        return $this->makeModel()
+            ->where('account_id', $accountId)
+            ->orderBy('created_at', 'desc')
+            ->paginate($perPage);
+    }
 }

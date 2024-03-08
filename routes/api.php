@@ -38,6 +38,7 @@ Route::middleware('auth:api')->group(function () {
         Route::get('accounts/balance', [AccountController::class, 'balance']);
         Route::get('accounts/transactions', [AccountController::class, 'transactions']);
 
+        Route::get('purchases', [PurchaseController::class, 'index']);
         Route::post('purchases', [PurchaseController::class, 'store']);
     });
 });

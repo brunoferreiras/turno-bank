@@ -16,6 +16,11 @@ class PurchaseService
     ) {
     }
 
+    public function getByAccount(int $accountId, int $perPage)
+    {
+        return $this->purchaseRepository->getByAccount($accountId, $perPage);
+    }
+
     public function create(int $accountId, array $data): array
     {
         try {

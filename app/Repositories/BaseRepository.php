@@ -11,7 +11,7 @@ interface BaseRepository
 
     public function findOne(int $id): ?Model;
 
-    public function update(int $id, array $data): bool;
+    public function update(int $id, array $data);
 
     public function findWhere(array $where, array $columns = ['*']): ?Collection;
 }

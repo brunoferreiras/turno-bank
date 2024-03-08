@@ -15,6 +15,7 @@ return new class extends Migration
         SELECT
             id, ROUND(amount / 100, 2) as amount, description, account_id, 'income' AS type, created_at, updated_at
         FROM deposits
+        WHERE status = 1
 
         UNION
 
